@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+    
+    <div class="d-flex justify-content-between align-items-center mb-4 bg-warning p-4 rounded shadow">
+        <div>
+            <h2 class="fw-bold mb-0 text-dark">💰 Finance Admin Zone</h2>
+            <p class="mb-0 text-dark">Manage Fees & Payments</p>
+        </div>
+        <a href="{% url 'super_dashboard' %}" class="btn btn-dark fw-bold">Back to Dashboard</a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card shadow border-0 border-top border-warning border-5">
+                <div class="card-body">
+                    <h5 class="fw-bold mb-3">
+                        {% if editing %} ✏️ Edit Fee Record {% else %} ➕ Add New Fee {% endif %}
+                    </h5>
+                    
+                    {% if editing %}
+                        <a href="{% url 'fee_dashboard' %}" class="btn btn-sm btn-outline-dark mb-3">Cancel Edit</a>
+                    {% endif %}
+
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label class="fw-bold small">Student</label>
+                            {{ form.student }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="fw-bold small">Fee Title</label>
+                            {{ form.title }}
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="fw-bold small">Date</label>
+                                {{ form.date }}
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="fw-bold small">Amount (₹)</label>
+                                {{ form.amount }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="fw-bold small">Payment Status</label>
+                            {{ form.payment_status }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="fw-bold small">Remarks</label>
+                            {{ form.remarks }}
+                        </div>
+
+                        <button type="submit" class="btn btn-warning w-100 fw-bold shadow-sm">
+                            {% if editing %} Update Record {% else %} Create Record {% endif %}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card shadow border-0">
+                <div class="card-header bg-dark text-white fw-bold">
+                    📊 All Fee Records
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-hover mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th>Student</th>
+                                <th>Title</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for fee in recent_fees %}
+                            <tr>
+                                <td class="fw-bold">{{ fee.student.student_name }}</td>
+                                <td>{{ fee.title }}</td>
+                                <td>₹{{ fee.amount }}</td>
+                                <td>
+                                    {% if fee.payment_status == 'Paid' %}
+                                        <span class="badge bg-success">Paid</span>
+                                    {% elif fee.payment_status == 'Overdue' %}
+                                        <span class="badge bg-danger">Overdue</span>
+                                    {% else %}
+                                        <span class="badge bg-warning text-dark">Pending</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="?edit_id={{ fee.id }}" class="btn btn-sm btn-outline-primary">Edit</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center py-5 text-muted">No transactions found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

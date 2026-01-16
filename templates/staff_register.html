@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-success"><i class="bi bi-person-badge-fill"></i> Staff Registration</h2>
+        <a href="{% url 'super_dashboard' %}" class="btn btn-outline-secondary">Back to Dashboard</a>
+    </div>
+
+    <div class="card shadow border-0">
+        <div class="card-header bg-success text-white fw-bold">
+            New Staff Onboarding Form
+        </div>
+        <div class="card-body p-4">
+            <form method="POST">
+                {% csrf_token %}
+                
+                <h5 class="text-success border-bottom pb-2 mb-3">1. Personal Details</h5>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Full Name</label>
+                        <input type="text" name="full_name" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Gender</label>
+                        <select name="gender" class="form-select">
+                            <option value="Female">Female</option>
+                            <option value="Male">Male</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Date of Birth (DOB)</label>
+                        <input type="date" name="dob" class="form-control" required>
+                        <small class="text-danger">This will be the Login Password (DDMMYYYY)</small>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Designation</label>
+                        <select name="designation" class="form-select">
+                            <option value="Teacher">Teacher</option>
+                            <option value="Admin Staff">Admin Staff</option>
+                            <option value="Helper">Helper</option>
+                            <option value="Driver">Driver</option>
+                            <option value="Principal">Principal</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Phone Number <span class="text-danger">*</span></label>
+                        <input type="number" name="phone_number" class="form-control" placeholder="10-digit Mobile No" required>
+                        <small class="text-danger">This will be the Login Username.</small>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Aadhar Number</label>
+                        <input type="text" name="aadhar_number" class="form-control">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Date of Recruitment</label>
+                        <input type="date" name="recruitment_date" class="form-control" required>
+                    </div>
+                </div>
+
+                <h5 class="text-success border-bottom pb-2 mb-3">2. Address</h5>
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Residential Address</label>
+                    <textarea name="address" class="form-control" rows="3"></textarea>
+                </div>
+
+                <div class="alert alert-secondary text-center">
+                    <strong><i class="bi bi-shield-lock"></i> Auto-Generated Credentials:</strong><br>
+                    Username: Phone Number | Password: DOB (DDMMYYYY)
+                </div>
+
+                <div class="text-end">
+                    <button type="submit" class="btn btn-success btn-lg fw-bold px-5">
+                        <i class="bi bi-check-circle-fill"></i> Register Staff
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

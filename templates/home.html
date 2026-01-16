@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="hero-section text-center text-white d-flex align-items-center justify-content-center" style="min-height: 40vh; background: linear-gradient(rgba(35, 126, 212, 0.7), rgba(24, 49, 82, 0.7)), url('https://source.unsplash.com/1600x900/?school,kids'); background-size: cover; background-position: center;">
+    <div class="container">
+        
+        <div class="mb-4">
+            <span class="badge bg-danger fs-0.9 px-3 py-3 shadow-lg rounded-pill animate-pulse border border-white">
+                📣 ADMISSION OPEN FOR 2026-27 ACADEMIC YEAR | LIMITED SEATS
+            </span>
+        </div>
+
+        <h1 class="display-3 fw-bold text-warning mb-3">Welcome to Halo Kids Academy</h1>
+        <p class="lead fs-4 mb-4">Empowering Young Minds with a Modern Vedic Approach</p>
+        
+        <div class="d-flex flex-wrap justify-content-center gap-3">
+            {% if user.is_authenticated %}
+                <a href="{% url 'smart_redirect' %}" class="btn btn-warning btn-lg fw-bold px-4 rounded-pill shadow">
+                    <i class="bi bi-speedometer2"></i> Dashboard
+                </a>
+            {% else %}
+                <a href="{% url 'login' %}" class="btn btn-warning btn-lg fw-bold px-4 rounded-pill shadow">
+                    <i class="bi bi-box-arrow-in-right"></i> Login
+                </a>
+            {% endif %}
+            
+            <a href="{% url 'about' %}" class="btn btn-outline-light btn-lg fw-bold px-4 rounded-pill">
+                Enquiry
+            </a>
+
+            <a href="https://www.youtube.com/@halokidsacademy" target="_blank" class="btn btn-danger btn-lg fw-bold px-4 rounded-pill shadow">
+                <i class="bi bi-youtube"></i> Our Channel
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h6 class="text-warning fw-bold text-uppercase">What We Offer</h6>
+        <h2 class="fw-bold">Our Academic Programs</h2>
+        <p class="text-muted">A complete learning path from Day Care to UKG</p>
+    </div>
+
+    <div class="row justify-content-center g-4">
+        
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm hover-up text-center">
+                <div class="card-body py-4">
+                    <div class="display-4 text-info mb-3"><i class="bi bi-house-heart-fill"></i></div>
+                    <h4 class="fw-bold">Day Care</h4>
+                    <p class="text-muted small">A safe, nurturing home away from home for your little ones.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm hover-up text-center">
+                <div class="card-body py-4">
+                    <div class="display-4 text-success mb-3"><i class="bi bi-puzzle-fill"></i></div>
+                    <h4 class="fw-bold">Play Home</h4>
+                    <p class="text-muted small">Fun-based learning to spark curiosity and social skills.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm hover-up text-center">
+                <div class="card-body py-4">
+                    <div class="display-4 text-warning mb-3"><i class="bi bi-stars"></i></div>
+                    <h4 class="fw-bold">Pre-KG</h4>
+                    <p class="text-muted small">Building foundational skills through play and Vedic values.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm hover-up text-center">
+                <div class="card-body py-4">
+                    <div class="display-4 text-danger mb-3"><i class="bi bi-pencil-fill"></i></div>
+                    <h4 class="fw-bold">LKG (Lower KG)</h4>
+                    <p class="text-muted small">Introducing structured learning, writing, and phonics.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm hover-up text-center">
+                <div class="card-body py-4">
+                    <div class="display-4 text-primary mb-3"><i class="bi bi-book-half"></i></div>
+                    <h4 class="fw-bold">UKG (Upper KG)</h4>
+                    <p class="text-muted small">Preparing children for primary school with advanced concepts.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="bg-light py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <img src="{% static 'images/School_big.jpg' %}" 
+                     alt="Halo Kids Academy Building" 
+                     class="img-fluid rounded shadow-lg border border-4 border-white"
+                     style="width: 100%; height: auto; object-fit: cover;">
+            </div>
+            <div class="col-md-6 mt-4 mt-md-0">
+                <h6 class="text-warning fw-bold text-uppercase">About Us</h6>
+                <h2 class="fw-bold mb-3">Shaping the Future Leaders</h2>
+                <p class="text-muted">
+                    At Halo Kids Academy, we believe in the unique potential of every child. Our curriculum is designed to spark curiosity, encourage creativity, and instill strong moral values.
+                </p>
+                <div class="alert alert-info border-0 shadow-sm">
+                    <strong>📅 Note:</strong> Registration for the upcoming batch closes soon. Secure your child's future today.
+                </div>
+                <a href="{% url 'about' %}" class="btn btn-dark fw-bold mt-2">Read Our Story</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bg-dark text-white py-5">
+    <div class="container">
+        <div class="row text-center text-md-start align-items-center">
+            
+            <div class="col-md-3 mb-4 mb-md-0 text-center">
+                <img src="{% static 'images/logo.jpg' %}" alt="Halo Kids Logo" class="img-fluid rounded-circle border border-warning mb-3" style="width: 80px; height: 80px;">
+                <h5 class="fw-bold text-warning">Halo Kids Academy</h5>
+            </div>
+
+            <div class="col-md-4 mb-4 mb-md-0">
+                <h5 class="text-secondary fw-bold text-uppercase small mb-3">📍 Location</h5>
+                <p class="mb-0 small">336, Navilu Rd, Opposite Raghavendra Swamy Mutt,</p>
+                <p class="mb-0 small">A & B Block, Kuvempu Nagara,</p>
+                <p class="small">Mysuru, Karnataka - 570023</p>
+            </div>
+            
+            <div class="col-md-5">
+                <h5 class="text-secondary fw-bold text-uppercase small mb-3">📞 Contact Us</h5>
+                <h4 class="text-white mb-2"><i class="bi bi-telephone-fill text-warning me-2"></i> +91 74067 77690</h4>
+                <p class="mb-0 text-white-50"><i class="bi bi-envelope-fill me-2"></i> halokidsacademy@gmail.com</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-up { transition: transform 0.3s ease; }
+    .hover-up:hover { transform: translateY(-10px); }
+    
+    @keyframes pulse-red {
+        0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
+        70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
+        100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+    }
+    .animate-pulse { animation: pulse-red 2s infinite; }
+</style>
+
+{% endblock %}

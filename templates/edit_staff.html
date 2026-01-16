@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+    <div class="card shadow border-0 mx-auto" style="max-width: 800px;">
+        <div class="card-header bg-primary text-white fw-bold">
+            <i class="bi bi-pencil-square"></i> Edit Staff: {{ staff.full_name }}
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Full Name</label>
+                        <input type="text" name="full_name" class="form-control" value="{{ staff.full_name }}" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Phone Number</label>
+                        <input type="text" name="phone_number" class="form-control" value="{{ staff.phone_number }}" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Gender</label>
+                        <select name="gender" class="form-select">
+                            <option value="{{ staff.gender }}" selected>{{ staff.gender }} (Current)</option>
+                            <option value="Female">Female</option>
+                            <option value="Male">Male</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="form-label fw-bold">Address</label>
+                        <textarea name="address" class="form-control" rows="2">{{ staff.address }}</textarea>
+                    </div>
+                    
+                    <div class="col-12 text-end mt-4">
+                        <a href="{% url 'manage_staff' %}" class="btn btn-secondary me-2">Cancel</a>
+                        <button type="submit" class="btn btn-primary fw-bold">Update Staff</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

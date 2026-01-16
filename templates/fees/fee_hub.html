@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold text-dark"><i class="bi bi-wallet-fill text-warning"></i> Fee Management Hub</h2>
+            <p class="text-muted">Select a student to manage their fee structure and payments.</p>
+        </div>
+        <a href="{% url 'super_dashboard' %}" class="btn btn-secondary fw-bold">Back to Dashboard</a>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light text-secondary">
+                        <tr>
+                            <th class="ps-4">Student Name</th>
+                            <th>Class</th>
+                            <th>Parent Phone</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                        <tr>
+                            <td class="ps-4 fw-bold">{{ student.student_name }}</td>
+                            <td><span class="badge bg-info text-dark">{{ student.class_admitted }}</span></td>
+                            <td>{{ student.mother_phone }}</td>
+                            <td>
+                                <a href="{% url 'student_fee_details' student.id %}" class="btn btn-primary btn-sm fw-bold px-3 rounded-pill">
+                                    <i class="bi bi-eye"></i> View Fees
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

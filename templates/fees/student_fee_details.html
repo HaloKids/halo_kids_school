@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container py-5">
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold text-dark">{{ student.student_name }}'s Finance Profile</h2>
+            <p class="text-muted">Class: {{ student.class_admitted }} | Application No: {{ student.application_number }}</p>
+        </div>
+        <a href="{% url 'fee_dashboard_hub' %}" class="btn btn-outline-secondary">
+            Back to List
+        </a>
+    </div>
+
+    <div class="card shadow-sm border-warning mb-5">
+        <div class="card-body">
+            <h5 class="fw-bold text-warning mb-3"><i class="bi bi-plus-circle"></i> Assign New Fee</h5>
+            <form action="{% url 'add_fee_structure' student.id %}" method="POST" class="row g-3 align-items-end">
+                {% csrf_token %}
+                <div class="col-md-5">
+                    <label class="form-label fw-bold small">Fee Name</label>
+                    <input type="text" name="fee_name" class="form-control" placeholder="e.g. Annual Tuition 2026" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-bold small">Total Amount (₹)</label>
+                    <input type="number" name="total_amount" class="form-control" placeholder="0000" required>
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-warning fw-bold w-100">Add Fee Structure</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {% for fee in fees %}
+    <div class="card shadow border-0 mb-4">
+        
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center gap-2">
+                <h5 class="mb-0 fw-bold">{{ fee.fee_name }}</h5>
+                {% if fee.get_balance <= 0 %}
+                    <span class="badge bg-success text-white">Paid</span>
+                {% else %}
+                    <span class="badge bg-light text-dark">Partial</span>
+                {% endif %}
+            </div>
+
+            <div>
+                <a href="{% url 'edit_fee_structure' fee.id %}" class="btn btn-sm btn-outline-warning me-1" title="Edit Fee">
+                    <i class="bi bi-pencil-square"></i>
+                </a>
+                <a href="{% url 'delete_fee_structure' fee.id %}" class="btn btn-sm btn-outline-danger" title="Delete Fee" onclick="return confirm('Are you sure? This will delete all payment history for this fee.');">
+                    <i class="bi bi-trash-fill"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="card-body">
+            
+            <div class="row text-center mb-4 mt-2">
+                <div class="col-md-4 border-end">
+                    <h3 class="fw-bold">₹{{ fee.total_amount }}</h3>
+                    <small class="text-muted text-uppercase fw-bold">Total Due</small>
+                </div>
+                <div class="col-md-4 border-end">
+                    <h3 class="text-success fw-bold">₹{{ fee.get_total_paid }}</h3>
+                    <small class="text-muted text-uppercase fw-bold">Amount Paid</small>
+                </div>
+                <div class="col-md-4">
+                    <h3 class="text-danger fw-bold">₹{{ fee.get_balance }}</h3>
+                    <small class="text-muted text-uppercase fw-bold">Balance Pending</small>
+                </div>
+            </div>
+
+            <h6 class="fw-bold text-secondary mt-4 mb-3">Transaction History</h6>
+            <div class="table-responsive mb-3">
+                <table class="table table-sm table-striped">
+                    <thead class="bg-light">
+                        <tr>
+                            <th>Date</th>
+                            <th>Amount Paid</th>
+                            <th>Mode/Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for txn in fee.feetransaction_set.all %}
+                        <tr>
+                            <td>{{ txn.payment_date }}</td>
+                            <td class="text-success fw-bold">+ ₹{{ txn.amount_paid }}</td>
+                            <td>{{ txn.remarks|default:"-" }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="3" class="text-center text-muted small py-2">No payments recorded yet.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <form action="{% url 'add_fee_payment' fee.id %}" method="POST" class="p-3 bg-light rounded border">
+                {% csrf_token %}
+                <div class="row g-2 align-items-center">
+                    <div class="col-auto">
+                        <span class="fw-bold small">Record Payment:</span>
+                    </div>
+                    <div class="col">
+                        <input type="number" name="amount_paid" class="form-control form-control-sm" placeholder="Enter Amount" required>
+                    </div>
+                    <div class="col">
+                        <input type="date" name="payment_date" class="form-control form-control-sm" required>
+                    </div>
+                    <div class="col">
+                        <input type="text" name="remarks" class="form-control form-control-sm" placeholder="Cash/UPI">
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-success btn-sm fw-bold">Save</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    {% empty %}
+    <div class="alert alert-info text-center py-5">
+        <h4>No Fees Assigned Yet</h4>
+        <p>Use the form above to assign a fee structure to this student.</p>
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

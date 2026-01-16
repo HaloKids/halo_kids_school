@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="card shadow-sm border-0 bg-danger text-white mb-4">
+        <div class="card-body p-4 d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="fw-bold mb-0"><i class="bi bi-person-video3"></i> Teacher Zone</h2>
+                <p class="mb-0 opacity-75">Bulk Attendance System</p>
+            </div>
+            <a href="{% url 'home' %}" class="btn btn-light fw-bold">Back to Website</a>
+        </div>
+    </div>
+
+    <div class="card shadow border-0 mb-5">
+        <div class="card-header bg-white fw-bold text-danger">
+            <i class="bi bi-pencil-square"></i> Mark Class Attendance
+        </div>
+        <div class="card-body p-4">
+            
+            <form method="GET" class="row g-3 align-items-end mb-4">
+                <div class="col-md-6">
+                    <label class="fw-bold mb-2">Select Class to Mark:</label>
+                    <div class="input-group">
+                        <select name="class_selected" class="form-select border-primary" required>
+                            <option value="" selected disabled>-- Choose Class --</option>
+                            {% for cls in classes %}
+                                <option value="{{ cls }}" {% if cls == selected_class %}selected{% endif %}>{{ cls }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn btn-dark fw-bold">Load Students</button>
+                    </div>
+                </div>
+            </form>
+
+            {% if students %}
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="class_selected" value="{{ selected_class }}">
+                
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold text-secondary">Class: <span class="text-dark">{{ selected_class }}</span></h5>
+                    <div class="col-md-3">
+                        <label class="small text-muted fw-bold">Date:</label>
+                        <input type="date" name="attendance_date" class="form-control form-control-sm" value="{{ today_date|date:'Y-m-d' }}">
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover align-middle">
+                        <thead class="bg-light text-center">
+                            <tr>
+                                <th style="width: 5%;">#</th>
+                                <th style="width: 40%;" class="text-start">Student Name</th>
+                                <th style="width: 55%;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in students %}
+                            <tr>
+                                <td class="text-center fw-bold">{{ forloop.counter }}</td>
+                                <td class="fw-bold text-secondary">{{ student.student_name }}</td>
+                                <td>
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <input type="radio" class="btn-check" name="status_{{ student.id }}" id="p_{{ student.id }}" value="Present" checked>
+                                        <label class="btn btn-outline-success btn-sm w-100" for="p_{{ student.id }}">Present</label>
+
+                                        <input type="radio" class="btn-check" name="status_{{ student.id }}" id="a_{{ student.id }}" value="Absent">
+                                        <label class="btn btn-outline-danger btn-sm w-100" for="a_{{ student.id }}">Absent</label>
+
+                                        <input type="radio" class="btn-check" name="status_{{ student.id }}" id="l_{{ student.id }}" value="Leave">
+                                        <label class="btn btn-outline-warning btn-sm w-100 text-dark" for="l_{{ student.id }}">Leave</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="text-end mt-4">
+                    <button type="submit" class="btn btn-success btn-lg fw-bold px-5 shadow">
+                        <i class="bi bi-save"></i> Save Attendance
+                    </button>
+                </div>
+            </form>
+            {% else %}
+                <div class="text-center py-5 text-muted">
+                    <p>Please select a class above to start.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row g-4">
+        
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-success text-white fw-bold">
+                    <i class="bi bi-wallet2"></i> My Salary History
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-striped mb-0 text-center small">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for salary in my_salary_history %}
+                            <tr>
+                                <td>{{ salary.date }}</td>
+                                <td>{{ salary.purpose }}</td>
+                                <td class="fw-bold text-success">₹{{ salary.amount }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="3" class="py-3 text-muted">No salary records found.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-primary text-white fw-bold">
+                    <i class="bi bi-calendar-check"></i> My Attendance Record
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-striped mb-0 text-center small">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for att in my_attendance_history %}
+                            <tr>
+                                <td>{{ att.date }}</td>
+                                <td>
+                                    {% if att.status == 'Present' %}
+                                        <span class="badge bg-success">Present</span>
+                                    {% elif att.status == 'Absent' %}
+                                        <span class="badge bg-danger">Absent</span>
+                                    {% else %}
+                                        <span class="badge bg-warning text-dark">Leave</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="2" class="py-3 text-muted">No attendance marked by Admin yet.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

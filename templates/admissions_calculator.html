@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="fw-bold text-dark"><i class="bi bi-calculator"></i> Admissions Age Calculator</h2>
+                <a href="{% url 'super_dashboard' %}" class="btn btn-outline-secondary">Back to Dashboard</a>
+            </div>
+
+            <div class="card shadow border-0 mb-4">
+                <div class="card-header bg-dark text-white fw-bold py-3">
+                    Check Eligibility (Based on June 1st)
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST">
+                        {% csrf_token %}
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="fw-bold mb-2">1. Select Academic Year</label>
+                                <select name="academic_year" class="form-select" required>
+                                    <option value="" disabled selected>-- Select Year --</option>
+                                    {% for label, year_val in academic_years %}
+                                        <option value="{{ year_val }}" {% if selected_year == year_val %}selected{% endif %}>
+                                            {{ label }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="fw-bold mb-2">2. Child's Date of Birth</label>
+                                <input type="date" name="dob" class="form-control" value="{{ dob_input }}" required>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info small">
+                            <i class="bi bi-info-circle-fill"></i> Calculation checks the child's completed age exactly on <strong>June 1st</strong> of the selected academic year.
+                        </div>
+
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-primary fw-bold px-5">
+                                <i class="bi bi-search"></i> Check Eligibility
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            {% if result %}
+            <div class="card shadow border-0 border-start border-5 border-{{ result.color }} bg-light">
+                <div class="card-body text-center p-5">
+                    
+                    <h5 class="text-muted mb-3">Child's Age on <span class="fw-bold text-dark">{{ result.reference_date_display }}</span></h5>
+                    
+                    <h1 class="display-4 fw-bold mb-1">
+                        {{ result.age_years }} <span class="fs-4 text-muted">Years</span> 
+                        &nbsp; 
+                        {{ result.age_months }} <span class="fs-4 text-muted">Months</span>
+                    </h1>
+                    
+                    <hr class="my-4 w-50 mx-auto">
+
+                    <h4 class="text-muted">Eligible Class:</h4>
+                    <h2 class="fw-bold text-{{ result.color }} display-6">{{ result.eligible_class }}</h2>
+
+                    <div class="mt-4 pt-3 text-start small text-muted border-top">
+                        <div class="row">
+                            <div class="col-6"><strong>6 Years+</strong> : 1st Standard</div>
+                            <div class="col-6"><strong>5 Years+</strong> : UKG</div>
+                            <div class="col-6"><strong>4 Years+</strong> : LKG</div>
+                            <div class="col-6"><strong>3 Years+</strong> : Pre-KG</div>
+                            <div class="col-6"><strong>2 Years+</strong> : Play Group</div>
+                            <div class="col-6"><strong>1 Year+</strong> : Day Care</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

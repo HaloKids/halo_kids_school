@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold text-dark">💰 Financial Deep Dive</h2>
+            <p class="text-muted">Live Tracking of School Revenue</p>
+        </div>
+        <a href="{% url 'super_dashboard' %}" class="btn btn-outline-secondary">Back to Command Center</a>
+    </div>
+
+    <div class="row g-4 mb-4">
+        
+        <div class="col-md-4">
+            <div class="card shadow border-0 h-100 border-start border-4 border-primary">
+                <div class="card-body">
+                    <h6 class="text-muted fw-bold text-uppercase">Total Fee Target</h6>
+                    <h2 class="fw-bold text-primary">₹{{ total_expected }}</h2>
+                    <small class="text-muted">Total value of all assigned fees</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow border-0 h-100 border-start border-4 border-success">
+                <div class="card-body">
+                    <h6 class="text-muted fw-bold text-uppercase">Total Collected</h6>
+                    <h2 class="fw-bold text-success">₹{{ total_collected }}</h2>
+                    <small class="text-success fw-bold">
+                        <i class="bi bi-arrow-up-circle"></i> Cash In Hand
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow border-0 h-100 border-start border-4 border-danger">
+                <div class="card-body">
+                    <h6 class="text-muted fw-bold text-uppercase">Pending Dues</h6>
+                    <h2 class="fw-bold text-danger">₹{{ total_pending }}</h2>
+                    <small class="text-danger fw-bold">
+                        <i class="bi bi-exclamation-circle"></i> Yet to be paid
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        
+        <div class="col-md-8">
+            <div class="card shadow border-0">
+                <div class="card-header bg-white fw-bold py-3">
+                    📈 Collection Efficiency
+                </div>
+                <div class="card-body py-4">
+                    <h4 class="fw-bold mb-3">{{ collection_percentage }}% Collected</h4>
+                    
+                    <div class="progress" style="height: 25px;">
+                        <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" 
+                             role="progressbar" 
+                             style="width: {{ collection_percentage }}%;">
+                             {{ collection_percentage }}%
+                        </div>
+                    </div>
+                    <p class="mt-3 text-muted">
+                        You have collected <strong>₹{{ total_collected }}</strong> out of the expected <strong>₹{{ total_expected }}</strong>.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-end mb-3">
+    <a href="{% url 'download_fee_data_csv' %}" class="btn btn-outline-primary fw-bold">
+        <i class="bi bi-download"></i> Download Fee Collection Report
+    </a>
+    </div>
+        <div class="col-md-4">
+            <div class="card shadow border-0">
+                <div class="card-header bg-white fw-bold py-3">
+                    🧾 Fee Status Breakdown
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>✅ Fully Paid Fees</span>
+                            <span class="badge bg-success rounded-pill px-3">{{ fully_paid_count }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>❌ Unpaid / Partial</span>
+                            <span class="badge bg-danger rounded-pill px-3">{{ unpaid_count }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center bg-light fw-bold">
+                            <span>Total Fee Records</span>
+                            <span>{{ total_invoices }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    /* Styling for the Yellow Header */
+    .gallery-header {
+        background-color: #ffc107;
+        padding: 50px 0;
+        text-align: center;
+        border-bottom: 5px solid #1a1a1a;
+    }
+
+    /* Grid layout for 10 images */
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+        padding: 40px 0;
+    }
+
+    /* Individual Image Cards */
+    .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 10px;
+        /* Increased height slightly to give images more room */
+        height: 300px; 
+        /* Black background looks best for "contain" style galleries */
+        background-color: #000; 
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        border: 3px solid #eee;
+        transition: transform 0.3s ease;
+    }
+
+    .gallery-item:hover {
+        transform: scale(1.05);
+        border-color: #ffc107;
+    }
+
+    .gallery-item img {
+        width: 100%;
+        height: 100%;
+        /* CHANGED: 'contain' shows the full image without cropping */
+        object-fit: contain; 
+    }
+
+    /* Hover caption */
+    .gallery-caption {
+        position: absolute;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        width: 100%;
+        padding: 10px;
+        text-align: center;
+        font-size: 0.9rem;
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+    }
+
+    .gallery-item:hover .gallery-caption {
+        transform: translateY(0);
+    }
+</style>
+
+<section class="gallery-header">
+    <div class="container mt-4">
+        <h1 class="fw-bold">Our School Gallery</h1>
+        <p class="lead">Glimpses of Vedic Values and Modern Education</p>
+    </div>
+</section>
+
+<div class="container">
+    <div class="gallery-grid">
+        <div class="gallery-item">
+            <img src="{% static 'images/gallery12.jpeg' %}" alt="School Activity">
+            <div class="gallery-caption">Field Visit to Sri Ganapathi Sachchidananda Ashrama</div>
+        </div>
+        <div class="gallery-item">
+            <img src="{% static 'images/gallery2.jpeg' %}" alt="School Activity">
+            <div class="gallery-caption">Ganapathi Festival Celebration</div>
+        </div>
+        <div class="gallery-item">
+            <img src="{% static 'images/gallery3.jpeg' %}" alt="School Activity">
+            <div class="gallery-caption">Sri Krishna Janmashtami Celebration</div>
+        </div>
+        <div class="gallery-item">
+            <img src="{% static 'images/gallery4.jpeg' %}" alt="School Activity">
+            <div class="gallery-caption">Ganapathi Festival Celebration</div>
+        </div>
+        <div class="gallery-item">
+            <img src="{% static 'images/gallery5.jpeg' %}" alt="School Activity">
+            <div class="gallery-caption">International Yoga Day Celebration</div>
+        </div>
+        <div class="gallery-item">
+            <img src="{% static 'images/gallery6.jpeg' %}" alt="School Activity">
+            <div class="gallery-caption">Kite Day Celebration</div>
+        </div>
+        <div class="gallery-item">
+            <img src="{% static 'images/gallery7.jpeg' %}" alt="School Activity">
+            <div class="gallery-caption">Yellow Colour Day Celebration</div>
+        </div>
+        <div class="gallery-item">
+            <img src="{% static 'images/gallery8.jpeg' %}" alt="School Activity">
+            <div class="gallery-caption">Elephant Day Celebration</div>
+        </div>
+        <div class="gallery-item">
+            <img src="{% static 'images/gallery9.jpeg' %}" alt="School Activity">
+            <div class="gallery-caption">Field Visit to Railway Museum</div>
+        </div>
+        <div class="gallery-item">
+            <img src="{% static 'images/gallery10.jpeg' %}" alt="School Activity">
+            <div class="gallery-caption">Tiger Day Celebration</div>
+        </div>
+        <div class="gallery-item">
+            <img src="{% static 'images/gallery11.jpeg' %}" alt="School Activity">
+            <div class="gallery-caption">Field Visit to Planet Earth Aquarium</div>
+        </div>
+    </div>
+</div>
+
+<footer class="bg-dark text-white py-4 text-center">
+    <p class="mb-0">© 2026 Halo Kids Academy | Blending Vedic Values with Modern Education</p>
+</footer>
+{% endblock %}

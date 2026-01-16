@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+    <div class="card shadow border-0 mx-auto" style="max-width: 800px;">
+        <div class="card-header bg-warning text-dark fw-bold">
+            <i class="bi bi-pencil-square"></i> Edit Student: {{ student.student_name }}
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Student Name</label>
+                        <input type="text" name="student_name" class="form-control" value="{{ student.student_name }}" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Class</label>
+                        <select name="class_admitted" class="form-select">
+                            <option value="{{ student.class_admitted }}" selected>{{ student.class_admitted }} (Current)</option>
+                            <option value="Play Group">Play Group</option>
+                            <option value="Nursery">Nursery</option>
+                            <option value="LKG">LKG</option>
+                            <option value="UKG">UKG</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Father's Name</label>
+                        <input type="text" name="father_name" class="form-control" value="{{ student.father_name }}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Father's Phone</label>
+                        <input type="text" name="father_phone" class="form-control" value="{{ student.father_phone }}">
+                    </div>
+                    
+                    <div class="col-12 text-end mt-4">
+                        <a href="{% url 'manage_students' %}" class="btn btn-secondary me-2">Cancel</a>
+                        <button type="submit" class="btn btn-success fw-bold">Update Changes</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

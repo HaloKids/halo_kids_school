@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow border-0">
+                <div class="card-header bg-warning text-dark fw-bold">
+                    <i class="bi bi-pencil-square"></i> Edit Fee Structure
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Fee Title</label>
+                            <input type="text" name="fee_name" class="form-control" value="{{ fee.fee_name }}" required>
+                            <small class="text-muted">e.g. Annual Tuition, Transport Fee</small>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Total Amount (₹)</label>
+                            <input type="number" step="0.01" name="total_amount" class="form-control" value="{{ fee.total_amount }}" required>
+                            <small class="text-danger">Warning: Changing this will affect the calculated balance.</small>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'student_fee_details' fee.student.id %}" class="btn btn-outline-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-warning fw-bold px-4">Update Fee</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

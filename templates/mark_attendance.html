@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+    
+    <div class="card shadow border-0">
+        <div class="card-header bg-danger text-white fw-bold d-flex justify-content-between align-items-center">
+            <span><i class="bi bi-calendar-check"></i> Mark Daily Attendance</span>
+            <a href="{% url 'super_dashboard' %}" class="btn btn-sm btn-light text-dark fw-bold">Back to Dashboard</a>
+        </div>
+        <div class="card-body">
+            
+            <form method="GET" class="row g-3 align-items-end mb-4 border-bottom pb-4">
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Select Class</label>
+                    <select name="class_selected" class="form-select" onchange="this.form.submit()">
+                        <option value="">-- Choose Class --</option>
+                        {% for cls in classes %}
+                            <option value="{{ cls }}" {% if cls == selected_class %}selected{% endif %}>{{ cls }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-8 text-muted">
+                    <small>Select a class to load the student list automatically.</small>
+                </div>
+            </form>
+
+            {% if students %}
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="class_selected" value="{{ selected_class }}">
+                
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Date</label>
+                        <input type="date" name="attendance_date" class="form-control" value="{{ today_date|date:'Y-m-d' }}" required>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Student Name</th>
+                                <th class="text-center">Present</th>
+                                <th class="text-center">Absent</th>
+                                <th class="text-center">Leave</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in students %}
+                            <tr>
+                                <td class="fw-bold">{{ student.student_name }}</td>
+                                
+                                <td class="text-center">
+                                    <input class="form-check-input bg-success border-success" type="radio" name="status_{{ student.id }}" value="Present" checked>
+                                </td>
+                                
+                                <td class="text-center">
+                                    <input class="form-check-input bg-danger border-danger" type="radio" name="status_{{ student.id }}" value="Absent">
+                                </td>
+                                
+                                <td class="text-center">
+                                    <input class="form-check-input bg-warning border-warning" type="radio" name="status_{{ student.id }}" value="Leave">
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="text-end mt-3">
+                    <button type="submit" class="btn btn-success btn-lg fw-bold px-5">
+                        <i class="bi bi-save"></i> Save Attendance
+                    </button>
+                </div>
+            </form>
+            {% elif selected_class %}
+                <div class="alert alert-warning">No students found in {{ selected_class }}.</div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
