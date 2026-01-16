@@ -736,3 +736,6 @@ def download_my_child_attendance(request):
         return response
     except:
         return redirect('dashboard')
+    
+def landing(request):
+    return render(request, 'landing.html')

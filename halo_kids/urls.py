@@ -87,4 +87,10 @@ urlpatterns = [
     # Attendance Downloads
     path('download/attendance/', views.download_attendance_report, name='download_attendance_report'), # Smart Date/Month Download
     path('download/my-attendance/', views.download_my_child_attendance, name='download_my_child_attendance'), # For Parents
+
+    # 1. This makes the Landing Page the default (first thing they see)
+path('', views.landing, name='landing'),
+
+# 2. This moves the real Home Page to "/home"
+path('home/', views.home, name='home'),
 ]
