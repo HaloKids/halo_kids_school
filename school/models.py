@@ -148,3 +148,9 @@ class Expense(models.Model):
 
     def __str__(self):
         return f"{self.purpose} - ₹{self.amount}"
+
+    class VisitorCount(models.Model):
+    count = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"Total Visitors: {self.count}"

@@ -3,17 +3,18 @@
 
 {% block content %}
 
-<div class="hero-section text-center text-white d-flex align-items-center justify-content-center" style="min-height: 40vh; background: linear-gradient(rgba(35, 126, 212, 0.7), rgba(24, 49, 82, 0.7)), url('https://source.unsplash.com/1600x900/?school,kids'); background-size: cover; background-position: center;">
-    <div class="container">
-        
-       <div class="alert alert-danger text-center fw-bold p-2 m-0 border-0 rounded-0" role="alert">
-            <marquee behavior="scroll" direction="left" scrollamount="6">
-                 📢 ADMISSION OPEN FOR 2026-27 ACADEMIC YEAR | LIMITED SEATS AVAILABLE
-             </marquee>
-        </div>
+<div class="hero-section text-center text-white d-flex flex-column" style="min-height: 50vh; background: linear-gradient(rgba(35, 126, 212, 0.8), rgba(24, 49, 82, 0.8)), url('https://source.unsplash.com/1600x900/?school,kids'); background-size: cover; background-position: center;">
+    
+    <div class="alert alert-danger text-center fw-bold p-2 m-0 border-0 rounded-0 w-100" role="alert">
+        <marquee behavior="scroll" direction="left" scrollamount="6">
+             📢 ADMISSION OPEN FOR 2026-27 ACADEMIC YEAR | LIMITED SEATS AVAILABLE | CONTACT: +91-74067 77690
+         </marquee>
+    </div>
 
+    <div class="container d-flex flex-column align-items-center justify-content-center flex-grow-1 py-5">
         <h1 class="display-3 fw-bold text-warning mb-3">Welcome to Halo Kids Academy</h1>
-        <p class="lead fs-4 mb-4">Empowering Young Minds with a Modern Vedic Approach</p>
+        
+        <p class="lead fs-4 mb-4">Where Vedic Values Meet Modern Childhood Learning</p>
         
         <div class="d-flex flex-wrap justify-content-center gap-3">
             {% if user.is_authenticated %}
@@ -148,16 +149,16 @@
     </div>
 </div>
 
+<div class="bg-black py-3 text-center border-top border-secondary">
+    <div class="d-inline-block p-2 px-4 rounded-pill border border-warning" style="background: rgba(255, 193, 7, 0.1);">
+        <span class="text-white me-2">👀 Total Visitors:</span>
+        <span class="text-warning fw-bold fs-5">{{ visitors }}</span>
+    </div>
+</div>
+
 <style>
     .hover-up { transition: transform 0.3s ease; }
     .hover-up:hover { transform: translateY(-10px); }
-    
-    @keyframes pulse-red {
-        0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
-        70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
-        100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
-    }
-    .animate-pulse { animation: pulse-red 2s infinite; }
 </style>
 
 {% endblock %}

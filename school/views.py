@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
 from django.db.models import Sum
 from django.utils import timezone
+from .models import VisitorCount
 
 # Import all models
 from .models import (
@@ -18,7 +19,15 @@ from .models import (
 # 1. PUBLIC PAGES
 # =========================================
 def home(request):
-    return render(request, 'home.html')
+    # 1. Get the counter (or create one if it's new)
+    counter, created = VisitorCount.objects.get_or_create(id=1)
+    
+    # 2. Add 1 to the count
+    counter.count += 1
+    counter.save()
+
+    # 3. Send the number to the HTML page
+    return render(request, 'home.html', {'visitors': counter.count})
 
 def about(request):
     return render(request, 'about.html')
