@@ -149,8 +149,11 @@ class Expense(models.Model):
     def __str__(self):
         return f"{self.purpose} - ₹{self.amount}"
 
-    class VisitorCount(models.Model):
-    count = models.IntegerField(default=0)
+# =========================================
+# 6. VISITOR COUNTER
+# =========================================
+class VisitorCount(models.Model):
+    count = models.IntegerField(default=0)  # <--- FIXED: Now this has 4 spaces!
 
     def __str__(self):
         return f"Total Visitors: {self.count}"
